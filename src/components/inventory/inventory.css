@@ -1,0 +1,11 @@
+.inventory {
+    margin: 2rem auto;
+    max-width: 520px;
+
+}
+.top-panel {
+    margin: 1rem 0;
+}
+.item-add{
+    margin-top: 3px
+}

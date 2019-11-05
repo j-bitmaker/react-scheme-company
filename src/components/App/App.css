@@ -1,0 +1,21 @@
+form {
+    display: inline;
+}
+.app{
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3em;
+    width:  80em
+}
+
+.app-search{
+    margin-left: 2px
+}
+.open{
+    margin-top: 60px
+}
+.scheme{
+    margin-top: 30px
+}
