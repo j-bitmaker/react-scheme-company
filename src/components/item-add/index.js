@@ -10,7 +10,8 @@ export default class ItemAddForm extends Component {
 
     onLabelChange = (e) => {
         this.setState({
-            label: e.target.value
+            label: e.target.value,
+            count: 1
         });
     };
 

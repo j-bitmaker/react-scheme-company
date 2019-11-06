@@ -1,33 +1,30 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import './search-panel.css'
- export default class InventorySearch extends Component {
-    state = 
-    {
-        filterData: ''
-    }
-    searchStyle = {
+ const InventorySearch = ({search}) =>{
+    
+    const [filterData, newFilterData] = useState('');
+
+    const searchStyle = {
         width: '400px',
         height: '38px'
     };
 
-    onSearchChange = (e) => {
+    const onSearchChange = (e) => {
         e.preventDefault();
-        let filterData = e.target.value
-        this.setState({filterData
-        });
-        this.props.onSearchChange(filterData)
+        let filtered = e.target.value
+        newFilterData(e.target.value);
+        search(filterData)
     };
-    render(){
     return(
      <input   
      className="search-input"
-    style={this.searchStyle}
+    style={searchStyle}
     placeholder= "Type here to search" 
-    onChange={this.onSearchChange}
+    onChange={onSearchChange}
     autoComplete=""
     enabled='true'/>
     )
-};
-
  }
+
+ export default InventorySearch;

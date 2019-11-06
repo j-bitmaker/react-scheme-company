@@ -12,7 +12,7 @@ const InventoryListItem = ({label, onDeleted, onEdit, dec, count}) =>(
         <button onClick={dec} className='btn btn-outline-success btn-sm float-left'><i className="fa fa-plus-circle plus"></i></button>
 
 
-        <EditItem label={label}/>
+        <Item label={label}/>
         </form>
         <button type="button"
             className="btn btn-outline-danger btn-sm float-right"
@@ -29,12 +29,20 @@ const InventoryListItem = ({label, onDeleted, onEdit, dec, count}) =>(
 
 export default InventoryListItem;
 
-const Item = ({label}) =>(
+const Item = ({label}) =>{
+if(label!==''){
+return(
     <span
       className="inventory-list-item-label">
       {label}
     </span>
 )
+}
+return <span
+className="inventory-list-item-label">
+-
+</span>
+}
 
 const EditItem = ({label}) =>(
   <input type='text' value={label}/>

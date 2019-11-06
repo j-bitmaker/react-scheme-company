@@ -3,17 +3,18 @@ import InventoryListItem from './inventory-list-item';
 import './inventory-list.css';
 
 const InventoryList = ({items, onDeleted, onToggleImportant, onToggleDone }) => items.map((i) => (
-        <li key={i.id} className="list-group-item"> 
+
+        <li key={i._id} className="list-group-item"> 
             <InventoryListItem 
-            label={i.label}
+            label={i.name}
             count={i.count}
-            onDeleted={()=> onDeleted(i.id)}
-            onToggleImportant={() => onToggleImportant(i.id)}
-            onToggleDone={() => onToggleDone(i.id)}
+            onDeleted={()=> onDeleted(i._id)}
+            onToggleImportant={() => onToggleImportant(i._id)}
+            onToggleDone={() => onToggleDone(i._id)}
             />
         </li>
         )
-)
+    )
 
 
 
