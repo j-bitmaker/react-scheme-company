@@ -1,86 +1,35 @@
 import React from 'react';
 // import CompanyService from '../../services';
-import InventoryHeader from '../inventory-header';
 import InventorySearch from '../inventory-search';
 import InventoryList from '../inventory-list';
-import ItemAdd from '../item-add';
+import InventoryAdd from '../inventory-add';
 import './inventory.css';
 
 
-const Inventory = ({onDeleted, search, onItemAdded, items}) =>{
-
-
-    // let maxId = 100;
-
-    // const onItemAdded = (label) => {
-    //           const item = createItem(label);
-    //           newItems([...items, item]);
-    //       };
-    
-    // const searchItems = (items, search) =>{
-    //     if (search.length === 0) {
-    //         return items;
-    //     }
-    
-    //     return items.filter((item) => {
-    //         return item.label.toLowerCase().indexOf(search.toLowerCase()) > -1;
-    //     });
-    //     }
-    
-    // const toggleProperty = (arr, id, propName) => {
-    //         const idx = arr.findIndex((item) => item.id === id);
-    //         const oldItem = arr[idx];
-    //         const value = !oldItem[propName];
-        
-    //         const item = { ...arr[idx], [propName]: value } ;
-    //         return [
-    //             ...arr.slice(0, idx),
-    //             item,
-    //             ...arr.slice(idx + 1)
-    //         ];
-    //         };
-    
-        // const onDeleted = (id) => {
-        //     const idx = items.findIndex((item) => item.id === id);
-        //     const items = [
-        //     ...items.slice(0, idx),
-        //     ...items.slice(idx + 1)
-        //     ];
-        //     newItems(items)
-        // };
-
-    
-        // const onSearchChange = (search) => {
-        //     newSearch(search)
-        //     console.log(search)
-        // };
-    
-        // const createItem = (label) => {
-        // return {
-        //     id: ++maxId,
-        //     label,
-        //     important: false,
-        //     done: false
-        // };
-        // }
-        // const visibleItems = searchItems(items, search);  
+const Inventory = ({onDeleted, onItemAdd, items, inc, dec, nextLabel, nextSearch}) =>{
         
         return(
-            <div className="inventory">
-            <InventoryHeader count={items.length}/>  
-            <div className="search-panel d-flex">
-            <InventorySearch
-            search={search}/>
-            </div>
-            <InventoryList 
-            items={items}
-            onDeleted={ onDeleted }
-            />
-            <div className='item-add'>
-            <ItemAdd
-            onItemAdded={onItemAdded} 
-            />
-            </div>
+            <div className="inventory" id='inventory'>
+                <div className="inventory-header d-flex">
+                    <h1>List of inventories</h1>
+                    <h2> {items.length} inventories </h2>
+                    </div>            
+                <div className="search-panel d-flex">
+                <InventorySearch
+                nextSearch={search=>nextSearch(search)}/>
+                </div>
+                <InventoryList
+                items={items}
+                onDeleted={id=>onDeleted(id)}
+                inc={id=>inc(id)}
+                dec={id=>dec(id)}
+                nextLabel={(id, val)=>nextLabel(val, id)}
+                />
+                <div className='item-add'>
+                <InventoryAdd
+                onItemAdd={onItemAdd} 
+                />
+                </div>
             </div>
         )
     }

@@ -9,3 +9,15 @@
 .item-add{
     margin-top: 3px
 }
+.inventory-header {
+    align-items: flex-end;
+}
+
+h1 {
+    flex-grow: 1;
+}
+
+h2 {
+    font-size: 1.1rem;
+    color:rgb(0, 153, 255)89);
+}

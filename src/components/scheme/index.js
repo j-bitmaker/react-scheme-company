@@ -1,23 +1,30 @@
 import React from 'react';
+import Nodes from './scheme-nodes';
 import './scheme.css';
 
 
 const Scheme = ({sendId, scheme=[]}) =>{ 
 
   const catchId = e =>{
-    if (e.hasOwnProperty('target')){
-    sendId(e.target.id)
+    const arrId = [e].flat(5);
+    if (e.hasOwnProperty('target')){ 
+      sendId(e.target.id);
     } else{
-      sendId(e)
+      if(e.find(i=>typeof(i)==='object')){
+        sendId(arrId);
+      } else {
+        sendId(e)
+      }
   }
 }
 
-
-
   return(
       <div className="col">
+        <h1>
+          Scheme of builds and rooms
+        </h1>
         <div className="panel-group" id="accordion">
-        {scheme.map(build=><Build build={build} sendId={catchId}/>)}
+         {scheme.map(build=><Build build={build} sendId={catchId} />)}
         </div>
       </div>
     )
@@ -30,102 +37,46 @@ const Build = ({build, sendId})=>{
   const {_id, name, rooms} = build;
 
   const catchId = e =>{
-    if (e.hasOwnProperty('target')){
-    sendId(e.target.id)
-    console.log(e.target.id)
-    } else{
-      sendId(e)
+    const listRooms = [];
+    const searchRooms = i =>{
+      if(i.hasOwnProperty('children')){
+        i.children.forEach(i=>{searchRooms(i)})
+      } 
+      if (!i.hasOwnProperty('id')){
+        listRooms.push(i)
+      } else {
+        listRooms.push(i.id)
+      }
+    }
+    
+    if (e.hasOwnProperty('rooms')){
+      const searchIds = e =>{
+          e.rooms.forEach(i=>searchRooms(i))
+        }
+      e.rooms.forEach(i=>listRooms.push(i.id))
+      searchIds(e)
+      sendId(listRooms);
+      } else{
+        searchRooms(e);
+        sendId(listRooms);
+      }
   }
-}
+
   const link='#'+_id;
   return (
   <div className="panel panel-default">
   <div className="panel-heading">
-    <h4 className="panel-title">
+    <h4 className="panel-title" onClick={()=>catchId(build)}>
       <a data-toggle="collapse" data-parent="#accordion" href={link}>
         {name}</a>
     </h4>
   </div>
   <div id={_id} className="panel-collapse collapse">
     <div className="list-group floor">
-        <FirstNode count={rooms} sendId={catchId}/>
+        <Nodes count={rooms} sendId={catchId}/>
     </div>
   </div>
 </div>
 )
 }
 
-const FirstNode = ({count, sendId})=>count.map(i=>{
-  const catchId = e =>{
-    if (e.hasOwnProperty('target')){
-    sendId(e.target.id)
-    } else{
-      sendId(e)
-  }
-}
-  const {id, children, name} = i;
-  if (i.hasOwnProperty('children')){
-   
-    const link='#'+id;
-    return (
-      <ul className="list-group">
-      <li key={id} id={id} onClick={catchId} className="list-group-item list-group-item-info">
-        <h4 className="panel-title">
-          <a href={link}>{name}</a>
-        </h4>
-      </li>
-        <div className="list-group">
-            <SecondNode node={children} sendId={catchId}/>
-        </div>
-    </ul>
-    )
-  }
-  return (<div className="list-group-item" id={id} onClick={catchId}>{name}</div>)
-})
-
-
-
-const SecondNode = ({node, sendId}) =>{
-
-  const catchId = e =>{
-    if (e.hasOwnProperty('target')){
-    sendId(e.target.id)
-    } else{
-      sendId(e)
-  }
-}
-  return(
-        <ul className='node'>
-          {node.map(i=>{
-            const {id, name, children} = i;
-            if(!i.hasOwnProperty('children')){
-              return(
-                <a className="list-group-item" id={id} onClick={catchId}>{name}</a>       )
-              }
-            return(
-              <>
-              <li key={id} id={id}className="list-group-item list-group-item-success">
-                <h4 className="panel-title">
-                  <a href={id}>{name}</a>
-                </h4>
-              </li>  
-              <LastNode node={children} sendId={catchId}/> 
-              </> 
-              )
-          })}
-        </ul>
-      )
-  }
-
-const LastNode = ({node, sendId}) =>{
-  const catchId = e =>{
-    sendId(e.target.id)
-  }
-  return(
-    <ul className='node'>
-      {node.map(i=>(
-      <a key={i.id} className="list-group-item" id={i.id} onClick={catchId}>{i.name}</a>  
-    ))}
-    </ul>
-       )
-    }

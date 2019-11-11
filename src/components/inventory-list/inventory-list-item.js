@@ -1,51 +1,84 @@
-import React from 'react';
-import Counter from './counter';
+import React, {useState} from 'react';
 import './inventory-list.css'
 
 
-const InventoryListItem = ({label, onDeleted, onEdit, dec, count}) =>(
-      <span className='inventory-list-item'>
-        <form>
-        {/* <Item label={label}/> */}
-        <button onClick={dec} className='btn btn-outline-primary btn-sm float-left'><i className="fa fa-minus-circle minus"></i></button>
-        <div className='float-left'>{count}</div>
-        <button onClick={dec} className='btn btn-outline-success btn-sm float-left'><i className="fa fa-plus-circle plus"></i></button>
+const InventoryListItem = ({label, onDeleted, onEdit, dec, inc, count, nextLabel}) =>{
 
+  const [change, newChange] = useState(false)
 
-        <Item label={label}/>
-        </form>
-        <button type="button"
-            className="btn btn-outline-danger btn-sm float-right"
-            onClick={onEdit}>
-          <i className="fa fa-trash" />
-        </button>
-        <button type="button"
-            className="btn btn-outline-primary btn-sm float-right"
-            onClick={onDeleted}>
-          <i className="fa fa-cog" />
-        </button>
+  const changeLabel = () =>{
+    newChange(!change);
+  }
+
+  const confirmChanges = val =>{
+    nextLabel(val); 
+    changeLabel()
+  }
+ 
+  return(
+    <span className='inventory-list-item'>
+      <span className='item-label'>
+      <span className="item">
+        <Item label={label} change={change} nextLabel={confirmChanges}/>
       </span>
+      <button onClick={dec} className='btn btn-outline-primary btn-sm float'><i className="fa fa-minus-circle minus"></i></button>
+        <span className='float'>{count}</span>
+      <button onClick={inc} className='btn btn-outline-success btn-sm float'><i className="fa fa-plus-circle plus"></i></button>
+      </span>
+      <button type="button"
+          className="btn btn-outline-danger btn-sm float-right"
+          onClick={onDeleted}>
+        <i className="fa fa-trash" />
+      </button>
+      <button type="button"
+          className="btn btn-outline-primary btn-sm float-right"
+          onClick={changeLabel}>
+        <i className="fa fa-cog" />
+      </button>
+    </span>
     )
+}
+
+const Item = ({label, change, nextLabel}) =>{
+
+const [value, newValue] = useState(label);
+
+const changeLabel = (e) =>{
+  e.preventDefault();
+  newValue(e.target.value);
+}
+const onSubmit = e =>{
+  e.preventDefault()
+  nextLabel(value)
+}
+
+
+
+if(!change){
+  return label!=='' ? (
+      <span
+        className="inventory-list-item-label">
+        {label}
+      </span>
+  ) : (<span>-</span>)
+}
+return (
+    <form onSubmit={onSubmit}>
+        <input type="text"
+        className="form-control change-input "
+        onChange={changeLabel}
+        placeholder="Let's add a new case!"
+        value={value}              
+        />
+        <button className='btn btn-outline-info change-button'
+        >OK </button>
+    </form>
+)
+}
 
 export default InventoryListItem;
 
-const Item = ({label}) =>{
-if(label!==''){
-return(
-    <span
-      className="inventory-list-item-label">
-      {label}
-    </span>
-)
-}
-return <span
-className="inventory-list-item-label">
--
-</span>
-}
 
-const EditItem = ({label}) =>(
-  <input type='text' value={label}/>
-)
+
 
 

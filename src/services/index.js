@@ -803,7 +803,7 @@ export default class CompanyService{
                 resolve(this.builds);
                 reject(new Error('ERROR!'))
             }, 500)
-        })
+        });
     }
     getEquipment(){
         return new Promise((resolve, reject)=>{
@@ -811,8 +811,12 @@ export default class CompanyService{
                 resolve(this.equipment);
                 reject(new Error('ERROR!'))
             }, 500)
-        })
+        });
     }
+    setEquipment(item){
+      this.equipment = [...item];
+    }
+    
 }
 
 
