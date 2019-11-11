@@ -12,7 +12,7 @@ const FirstNode = ({count, sendId})=>count.map(i=>{
     if (i.hasOwnProperty('children')){
      
       return (
-        <ul className="list-group">
+        <ul className="list-group node">
         <a className="list-group-item list-group-item-info" onClick={catchId}>
           <h4 key={id} id={id} className="panel-title">
             <span>{name}</span>
@@ -24,7 +24,7 @@ const FirstNode = ({count, sendId})=>count.map(i=>{
       </ul>
       )
     }
-    return (<a key={id} className="list-group-item" id={id} onClick={catchId}>{name}</a>)
+    return (<a key={id} className="list-group-item node" id={id} onClick={catchId}>{name}</a>)
   })
    
   const SecondNode = ({node, sendId}) =>(
