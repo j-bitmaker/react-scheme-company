@@ -4,6 +4,6 @@
 * The first array is scheme of company, the second is equipment of this company.
 <hr/>
 * You can install it in YOUR local machine so easy:
-<i> git clone https://github.com/j-bitmaker/react-scheme-company </i>
-<i> cd react-scheme-company </i>
+<i> git clone https://github.com/j-bitmaker/react-scheme-company </i><br/>
+<i> cd react-scheme-company </i><br/>
 <i> npm install </i>
